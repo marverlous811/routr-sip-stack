@@ -34,14 +34,8 @@ const logger = getLogger({
 new Processor({ bindAddr: BIND_ADDR, name: "instant-messaging" }).listen(
   async (req: MessageRequest, res: Response) => {
     try {
-      switch (req.method.toString()) {
-        case Method.REGISTER:
-          return registerHandler(locationClient, req, res);
-        case Method.MESSAGE:
-          return messageHandler(locationClient, req, res);
-        default:
-          res.sendNotImplemented();
-      }
+      logger.info("Received a new message", { method: req.method });
+      res.sendOk();
     } catch (err) {
       logger.error("An error occurred:", { error: err.message });
       res.sendInternalServerError();

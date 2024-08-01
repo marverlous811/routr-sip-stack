@@ -5,11 +5,18 @@ services:
       - 5060:5060
       - 5060:5060/udp
     environment:
+      EXTERNAL_ADDRS: 127.0.0.1
+      NODE_ENV: dev
       LOGS_LEVEL: verbose
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     volumes:
       - ./config/edgeport.yaml:/etc/routr/edgeport.yaml
   dispatcher:
     image: fonoster/routr-dispatcher
+    environment:
+      NODE_ENV: dev
+      LOGS_LEVEL: verbose
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
     volumes:
       - ./config/dispatcher.yaml:/etc/routr/dispatcher.yaml
   processor:
@@ -18,3 +25,11 @@ services:
     environment:
       LOGS_LEVEL: verbose
       LOCATION_ADDR: 127.0.0.1
+      OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:1.54
+    ports:
+      - 16686:16686
+      - 14268:14268
+      - 14250:14250
