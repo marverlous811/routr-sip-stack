@@ -1,0 +1,25 @@
+kind: EdgePort
+apiVersion: v2beta1
+ref: edgeport-01
+metadata:
+  region: default
+spec:
+  # unknownMethodAction: Discard
+  processor:
+    addr: dispatcher:51901
+  localnets:
+    - 127.0.0.1/8
+  externalAddrs:
+    - 127.0.0.1
+  methods:
+    - REGISTER
+    - MESSAGE
+    - INVITE
+    - ACK
+    - BYE
+    - CANCEL
+  transport:
+    - protocol: tcp
+      port: 5060
+    - protocol: udp
+      port: 5060

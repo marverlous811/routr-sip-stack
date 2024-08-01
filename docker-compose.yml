@@ -1,0 +1,20 @@
+services:
+  edgePort:
+    image: fonoster/routr-edgeport
+    ports:
+      - 5060:5060
+      - 5060:5060/udp
+    environment:
+      LOGS_LEVEL: verbose
+    volumes:
+      - ./config/edgeport.yaml:/etc/routr/edgeport.yaml
+  dispatcher:
+    image: fonoster/routr-dispatcher
+    volumes:
+      - ./config/dispatcher.yaml:/etc/routr/dispatcher.yaml
+  processor:
+    build:
+      context: ./my-processor
+    environment:
+      LOGS_LEVEL: verbose
+      LOCATION_ADDR: 127.0.0.1

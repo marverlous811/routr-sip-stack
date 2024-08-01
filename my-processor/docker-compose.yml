@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  nodejs-processor:
+    build:
+      context: .  
+    image: fonoster/nodejs-processor:latest
+    restart: always
+    ports:
+      - 51904:51904
+    environment:
+      LOGS_LEVEL: verbose
+      LOCATION_ADDR: ${LOCATION_ADDR}
+      # Uncomment the following line to enable fluent transport
+      # LOGS_TRANSPORT: fluent
